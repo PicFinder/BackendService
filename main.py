@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 from typing import Optional
 
+from prometheus_fastapi_instrumentator import Instrumentator
 from fastapi import FastAPI, Depends, UploadFile
 from fastapi.responses import RedirectResponse
 import uvicorn
@@ -30,6 +31,8 @@ app = FastAPI(
     lifespan=lifespan,
     root_path="/api"
 )
+
+Instrumentator().instrument(app).expose(app)
 
 
 @app.post("/create_chat")
